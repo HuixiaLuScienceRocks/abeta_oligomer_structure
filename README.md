@@ -16,7 +16,7 @@ The objective of our work is to achieve a deeper understanding of the molecular 
 
 ## 8mer-4popc: 
 Aβ octamer oligomer with 4 POPC lipids wrapped inside of it cavity while solvated in 0.15 M NaCl solution.
-
+![8mer-oneHSP-4popc.png](https://github.com/HuixiaLuScienceRocks/abeta_oligomer_structure/blob/main/8mer-oneHSP-4popc.png)
 ## 2x8mer dimer:
 two Aβ octamer molecules form stable dimer 2x8mer in 0.15 M NaCl solution.
 ![dimer-in-solution.png](https://github.com/HuixiaLuScienceRocks/abeta_oligomer_structure/blob/main/dimer-in-solution.png)
