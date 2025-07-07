@@ -1,0 +1,28 @@
+#! /bin/bash
+
+
+#echo $1
+#inputfile='echo $1'
+inputfile=`echo $1`
+
+#grep -v "REMARK  STREAM " $inputfile > tmp
+#grep -v "REMARK  CANNOT " tmp > $inputfile
+
+cp $inputfile pdbinput.pdb
+sed -i 's/HSD/HIS/g' pdbinput.pdb
+sed -i 's/HSE/HIS/g' pdbinput.pdb
+sed -i 's/HETATM/ATOM  /g' pdbinput.pdb
+
+./pdbchainm
+
+#shiftx 1 pdbout.pdb out
+# python shiftx2.py -i 1UBQ.pdb -f TABULAR -o out
+  python2 /home/huixia/fitcys/shiftx2.py -i /home/huixia/projects/project1-A-beta-NMR-BoChen/fit-ssnmr-try/pdbout.pdb -f TABULAR -o /home/huixia/projects/project1-A-beta-NMR-BoChen/fit-ssnmr-try/out
+
+sed -i 's/\*\*\*\*/0.00/g' out
+
+./fit
+
+#average
+
+exit 0

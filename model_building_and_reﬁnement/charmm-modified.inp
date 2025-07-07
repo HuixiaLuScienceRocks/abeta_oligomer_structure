@@ -1,0 +1,445 @@
+DIMENS CHSIZE 3000000 MAXRES 3000000
+faster on
+bomblevel -2
+
+!READ TOPOLOGY AND PARAMETERS
+open read card unit 3 name /usr/local/charmm45b/charmm/toppar/top_all36_prot.rtf
+read rtf unit 3 card
+close unit 3
+
+open read card unit 3 name /usr/local/charmm45b/charmm/toppar/par_all36m_prot.prm
+read para unit 3 card 
+close unit 3
+
+set nchain = 1
+
+set xcount 1
+LABEL xside
+
+!open read unit 3 card name rotopt.crd
+open read unit 3 card name m1.pdb.crd
+read seque coor unit 3
+close unit 3
+
+generate @xcount_a  setup
+
+incr xcount by 1
+if xcount le @nchain goto xside
+
+
+!    open read   unit 50 name   anti-frag.dcd        
+!    open read   unit 50 name   ab1meropt2021.dcd        
+!    TRAJectory QUERy UNIT 50
+!    TRAJECTORY IREAD 50
+
+!set xtraj 1
+!LABEL xread
+!    TRAJ READ
+!incr xtraj by 1
+!if xtraj le 1 goto xread
+
+open read unit 10 card name ab1mer.pdb
+read coor unit 10 pdb resid
+
+!write psf
+open unit 20 write form name ab1mer.psf
+write psf card unit 20
+* nter
+*
+
+
+!coor stat sele .not. hydrogen end
+!coor trans xdir  -?xave    ydir -?yave   zdir -?zave  sele all end
+!coor stat sele .not. hydrogen end
+
+!open unit 17 write card name ab1mer.crd
+!write coor card unit 17
+!* title
+!*
+
+!open unit 20 write form name ab1mer.pdb
+!write coor pdb unit 20
+!*
+
+!open unit 20 write form name rotate.pdb
+!write coor pdb unit 20
+!*
+
+
+!set GBPARAMS = SHIFT -0.102 SLOPE 0.9085
+
+!NBONDS RDIE
+!GBMV BETA -20 EPSILON 80 DN 1.0 watr 1.4 GEOM -
+!     TOL 1e-8 BUFR 0.5 Mem 10 CUTA 20 HSX1 -0.125 HSX2 0.25 -
+!     ALFRQ 1 EMP 1.5 P4 0.0 P6 8.0 P3 0.70 ONX 1.9 OFFX 2.1 -
+!     SON 0.5 SOFF 1.75 -
+!     WTYP 2 NPHI 38 CORR 1 SA 0.00592 SB 0.0 @GBPARAMS
+
+!CONS HARM FORCE 1000.0 MASS SELE atom * * CA  END
+!CONS HARM FORCE 1000.0 MASS SELE atom * * N   END
+!CONS HARM FORCE 1000.0 MASS SELE atom * * C   END
+
+!mini abnr nstep 400
+
+open unit 20 write form name rotate.pdb
+write coor pdb unit 20
+*
+
+
+OPEN WRITE UNIT 22 FILE NAME ab1meropt2021.dcd
+TRAJECTORY IWRITE 22 NWRITE 1 NFILE 360 SKIP 1
+
+OPEN WRITE CARD UNIT 23 NAME rmsd.out
+
+
+SET frame = 0
+SET Numopt = 0
+
+
+!SYSTem  "shell-cmd"
+!SYSTem  "sleep 15"
+
+open unit 20 write form name rotate2.pdb
+write coor pdb unit 20
+*
+ 
+ SYSTem  "./runmono rotate.pdb > rotate.log"
+ open unit 40 read form name rmsd
+       get line unit 40
+       set rmsd0 = @line
+
+write title unit 23
+* @frame @rmsd0
+
+
+
+
+set rotd = 30.0
+set drot = -30.0
+
+LABEL LOOPopt
+
+SET res1 = 3
+
+LABEL LOOPN
+
+SET 1 1
+
+ if ((@res1 .eq. 6) .or. (@res1 .eq. 7)) goto nopsiphi
+ if (@res1 .eq. 15)  goto nopsiphi
+
+calc res2 = @res1 + 1
+
+! if ((@res1 .ge. 21) .and. (@res1 .le. 30)) goto noside
+LABEL LOOPsi
+
+!PSI
+set xchain 1
+LABEL xpsi 
+      IC FILL
+      ic edit
+     dihe       @xchain_a @res1 N  -
+                @xchain_a @res1 CA -
+                @xchain_a @res1 C  -
+                @xchain_a @res2 N  -
+          @rotd ADD
+     end
+
+      COOR INIT  SELE atom @xchain_a * * .and. .not. (resid 2) END
+      IC BUILD
+
+hbuild sele hydrogen end
+
+
+
+incr xchain by 1
+if xchain le @nchain goto xpsi 
+
+
+open unit 20 write form name rotate.pdb
+write coor pdb unit 20
+*
+
+open unit 20 write form name rotate2.pdb
+write coor pdb unit 20
+*
+
+ SYSTem  "./runmono rotate.pdb > rotate.tmp"
+ open unit 40 read form name rmsd
+       get line unit 40
+       set rmsd2 = @line
+
+       if @rmsd2 .lt. @rmsd0 goto movepsi
+
+set xchain 1
+LABEL dxpsi
+      IC FILL
+      ic edit
+     dihe       @xchain_a @res1 N  -
+                @xchain_a @res1 CA -
+                @xchain_a @res1 C  -
+                @xchain_a @res2 N  -
+          @drot ADD
+     end
+
+      COOR INIT  SELE atom @xchain_a * * .and. .not. (resid 2) END
+      IC BUILD
+hbuild sele hydrogen end
+
+incr xchain by 1
+if xchain le  @nchain goto dxpsi
+
+      goto loophi   
+
+LABEL movepsi
+ SYSTem  "cat   rotate.tmp >> rotate.log"
+INCR frame BY 1
+write title unit 23
+* @frame @rmsd2
+TRAJ WRITE
+       set rmsd0 = @rmsd2
+
+INCR 1 BY 5
+IF 1 LT 360.5 GOTO LOOPsi
+
+
+LABEL LOOPhi
+
+set xchain 1
+LABEL xphi
+      IC FILL
+      ic edit
+     dihe       @xchain_a @res1 C  -
+                @xchain_a @res2 N  -
+                @xchain_a @res2 CA  -
+                @xchain_a @res2 C  -
+          @rotd ADD
+     end
+
+      COOR INIT  SELE atom @xchain_a * * .and. .not. (resid 2) END
+      IC BUILD
+hbuild sele hydrogen end
+
+
+incr xchain by 1
+if xchain le @nchain goto xphi
+
+open unit 20 write form name rotate.pdb
+write coor pdb unit 20
+*
+
+open unit 20 write form name rotate2.pdb
+write coor pdb unit 20
+*
+`
+ SYSTem  "./runmono rotate.pdb > rotate.tmp"
+ open unit 40 read form name rmsd
+       get line unit 40
+       set rmsd2 = @line
+
+       if @rmsd2 .lt. @rmsd0 goto movephi
+
+set xchain 1
+LABEL dxphi
+      IC FILL
+      ic edit
+     dihe       @xchain_a @res1 C  -
+                @xchain_a @res2 N  -
+                @xchain_a @res2 CA  -
+                @xchain_a @res2 C  -
+          @drot ADD
+     end
+
+      COOR INIT  SELE atom @xchain_a * * .and. .not. (resid 2) END
+      IC BUILD
+
+hbuild sele hydrogen end
+
+
+
+
+incr xchain by 1
+if xchain le @nchain goto dxphi
+
+      goto loopnstop
+
+LABEL movephi
+ SYSTem  "cat   rotate.tmp >> rotate.log"
+INCR frame BY 1
+write title unit 23
+* @frame @rmsd2
+TRAJ WRITE
+       set rmsd0 = @rmsd2
+INCR 1 BY 5
+IF 1 LT 360.5 GOTO LOOPhi
+
+LABEL loopnstop
+
+     if ((@res1 .eq. 9) .or. (@res1 .eq. 25.) -
+     .or. (@res1 .eq. 29) .or. (@res1 .eq. 33) -
+     .or. (@res1 .eq. 37) .or. (@res1 .eq. 38) -
+     .or. (@res1 .eq. 29) ) goto noside
+
+
+LABEL LOOpside
+set xchain 1
+LABEL xrotm
+COOR AXIS SELE ATOM @xchain_a @res1 CA END SELE ATOM @xchain_a  @res1 CB END
+COOR ROTATE AXIS PHI @rotd SELE ATOM @xchain_a @res1 * .AND. .NOT. ( TYPE C -
+   .OR. TYPE N .OR. TYPE H ) END
+incr xchain by 1
+if xchain le @nchain goto xrotm
+
+open unit 20 write form name rotate.pdb
+write coor pdb unit 20
+*
+
+open unit 20 write form name rotate2.pdb
+write coor pdb unit 20
+*
+
+ SYSTem  "./runmono rotate.pdb > rotate.tmp"
+ open unit 40 read form name rmsd
+       get line unit 40
+       set rmsd2 = @line
+
+       if @rmsd2 .lt. @rmsd0 goto moveside
+
+set xchain 1
+LABEL dxrotm
+COOR AXIS SELE ATOM @xchain_a @res1 CA END SELE ATOM @xchain_a  @res1 CB END
+LABEL LOOpside
+COOR ROTATE AXIS PHI @drot SELE ATOM @xchain_a @res1 * .AND. .NOT. ( TYPE C -
+   .OR. TYPE N .OR. TYPE H ) END
+incr xchain by 1
+if xchain le @nchain goto dxrotm
+
+      goto noside
+
+LABEL moveside
+ SYSTem  "cat   rotate.tmp >> rotate.log"
+INCR frame BY 1
+write title unit 23
+* @frame @rmsd2
+TRAJ WRITE
+       set rmsd0 = @rmsd2
+
+INCR 1 BY 5
+IF 1 LT 360.5 GOTO LOOpside
+
+
+LABEL noside
+
+
+LABEL LOOPsiphi
+
+set xchain 1
+LABEL xpsiphi
+      IC FILL
+      ic edit
+     dihe       @xchain_a @res1 N  -
+                @xchain_a @res1 CA -
+                @xchain_a @res1 C  -
+                @xchain_a @res2 N  -
+          @rotd ADD
+     dihe       @xchain_a @res1 C  -
+                @xchain_a @res2 N  -
+                @xchain_a @res2 CA  -
+                @xchain_a @res2 C  -
+          @drot ADD
+     end
+
+      COOR INIT  SELE atom @xchain_a * * .and. .not. (resid 2) END
+      IC BUILD
+
+hbuild sele hydrogen end
+
+
+
+incr xchain by 1
+if xchain le @nchain goto xpsiphi
+
+
+open unit 20 write form name rotate.pdb
+write coor pdb unit 20
+*
+
+open unit 20 write form name rotate2.pdb
+write coor pdb unit 20
+*
+
+ SYSTem  "./runmono rotate.pdb > rotate.tmp"
+ open unit 40 read form name rmsd
+       get line unit 40
+       set rmsd2 = @line
+
+       if @rmsd2 .lt. @rmsd0 goto movepsiphi
+
+set xchain 1
+LABEL dxpsiphi
+      IC FILL
+      ic edit
+     dihe       @xchain_a @res1 N  -
+                @xchain_a @res1 CA -
+                @xchain_a @res1 C  -
+                @xchain_a @res2 N  -
+          @drot ADD
+     dihe       @xchain_a @res1 C  -
+                @xchain_a @res2 N  -
+                @xchain_a @res2 CA  -
+                @xchain_a @res2 C  -
+          @rotd ADD
+     end
+
+      COOR INIT  SELE atom @xchain_a * * .and. .not. (resid 2) END
+      IC BUILD
+
+hbuild sele hydrogen end
+
+
+
+incr xchain by 1
+if xchain le @nchain goto dxpsiphi
+
+      goto nopsiphi
+
+LABEL movepsiphi
+ SYSTem  "cat   rotate.tmp >> rotate.log"
+INCR frame BY 1
+write title unit 23
+* @frame @rmsd2
+TRAJ WRITE
+       set rmsd0 = @rmsd2
+
+INCR 1 BY 5
+IF 1 LT 360.5 GOTO LOOPsiphi
+
+LABEL nopsiphi
+
+
+INCR res1 BY 1
+IF res1 LT 42 GOTO LOOPN
+
+
+INCR numopt BY 1
+calc rotd = @rotd*(-0.85)
+calc drot = @drot*(-0.85)
+IF numopt LT 8 GOTO LOOPopt
+
+
+LABEL sloop
+
+
+
+open unit 17 write card name rotopt.crd
+write coor card unit 17
+* title
+*
+
+open unit 20 write form name rotopt.pdb
+write coor pdb unit 20
+*
+
+
+STOP
+
