@@ -3,11 +3,11 @@ faster on
 bomblevel -2
 
 !READ TOPOLOGY AND PARAMETERS
-open read card unit 3 name /usr/local/charmm45b/charmm/toppar/top_all36_prot.rtf
+open read card unit 3 name ./top_all36_prot.rtf
 read rtf unit 3 card
 close unit 3
 
-open read card unit 3 name /usr/local/charmm45b/charmm/toppar/par_all36m_prot.prm
+open read card unit 3 name ./par_all36m_prot.prm
 read para unit 3 card 
 close unit 3
 
@@ -17,7 +17,7 @@ set xcount 1
 LABEL xside
 
 !open read unit 3 card name rotopt.crd
-open read unit 3 card name m1.pdb.crd
+open read unit 3 card name ab1mer.pdb.crd
 read seque coor unit 3
 close unit 3
 
