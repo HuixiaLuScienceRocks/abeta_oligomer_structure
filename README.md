@@ -23,6 +23,8 @@ two Aβ octamer molecules form stable dimer 2x8mer in 0.15 M NaCl solution.
 
 ## 3x8mer-in-solution:
 three Aβ octamer molecules form stable tetramer 3x8mer in 0.15 M NaCl solution.
+![3mer-in-solution.png](https://github.com/HuixiaLuScienceRocks/abeta_oligomer_structure/blob/main/3mer-in-solution.png)
 
 ## 3x8mer-in-mem:
 three Aβ octamer molecules form stable tetramer 3x8mer embedded in the membrane.
+![3-8mer-inPM-6.png](https://github.com/HuixiaLuScienceRocks/abeta_oligomer_structure/blob/main/3-8mer-inPM-6.png)
