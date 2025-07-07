@@ -17,7 +17,7 @@ sed -i 's/HETATM/ATOM  /g' pdbinput.pdb
 
 #shiftx 1 pdbout.pdb out
 # python shiftx2.py -i 1UBQ.pdb -f TABULAR -o out
-  python2 /home/huixia/fitcys/shiftx2.py -i /home/huixia/projects/project1-A-beta-NMR-BoChen/fit-ssnmr-try/pdbout.pdb -f TABULAR -o /home/huixia/projects/project1-A-beta-NMR-BoChen/fit-ssnmr-try/out
+  python2 /home/huixia/fitcys/shiftx2.py -i ./pdbout.pdb -f TABULAR -o ./out
 
 sed -i 's/\*\*\*\*/0.00/g' out
 
