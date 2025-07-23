@@ -15,16 +15,16 @@ The objective of our work is to achieve a deeper understanding of the molecular 
 # folders:
 
 ## 8mer-4popc: 
-Aβ octamer oligomer with 4 POPC lipids wrapped inside of it cavity while solvated in 0.15 M NaCl solution.
+The last configuration of Aβ octamer oligomer with 4 POPC lipids wrapped inside of it cavity while solvated in 0.15 M NaCl solution when t=5000 ns.
 ![8mer-oneHSP-4popc.png](https://github.com/HuixiaLuScienceRocks/abeta_oligomer_structure/blob/main/8mer-oneHSP-4popc.png)
 ## 2x8mer dimer:
-two Aβ octamer molecules form stable dimer 2x8mer in 0.15 M NaCl solution.
+The last configuration of two Aβ octamer molecules form stable dimer 2x8mer in 0.15 M NaCl solution when t=3000 ns.
 ![dimer-in-solution.png](https://github.com/HuixiaLuScienceRocks/abeta_oligomer_structure/blob/main/dimer-in-solution.png)
 
 ## 3x8mer-in-solution:
-three Aβ octamer molecules form stable tetramer 3x8mer in 0.15 M NaCl solution.
+The last configuration of three Aβ octamer molecules form stable tetramer 3x8mer in 0.15 M NaCl solution when t= 1000 ns.
 ![3mer-in-solution.png](https://github.com/HuixiaLuScienceRocks/abeta_oligomer_structure/blob/main/3mer-in-solution.png)
 
 ## 3x8mer-in-mem:
-three Aβ octamer molecules form stable tetramer 3x8mer embedded in the membrane.
+The last configuration of three Aβ octamer molecules form stable tetramer 3x8mer embedded in the membrane when t=3000 ns.
 ![3-8mer-inPM-6.png](https://github.com/HuixiaLuScienceRocks/abeta_oligomer_structure/blob/main/3-8mer-inPM-6.png)
