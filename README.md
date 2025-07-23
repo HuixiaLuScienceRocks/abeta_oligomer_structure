@@ -4,9 +4,9 @@ In this repository, we provide essential files for a manuscript in preparation:
 by Tyrone Thames1#, Huixia Lu2a#, MD Imran Khan1b, Nabin Kandel1c, Ivan Hung1, Zhehong Gan1,
 Ada Solano1ˈ Ganggang Bai2, Suren A. Tatulian1*, Bo Chen1*, and Buyong Ma2*
 
-# Simulating packages used in this work for consucting MD simulations:
+#### Simulating packages used in this work for consucting MD simulations:
 
-## AMBER20 utilizing the CHARMM36 force field 
+##### AMBER20 utilizing the CHARMM36 force field 
 
 # Highlights from this work:
 
