@@ -1,8 +1,8 @@
 In this repository, we provide essential files for a manuscript in preparation:
 
-# Structure and Dynamics of Lipid-Stabilized Amyloid Beta Aβ1–42 Oligomers
-by Tyrone Thames1#, Huixia Lu2a#, MD Imran Khan1b, Nabin Kandel1c, Ivan Hung1, Zhehong Gan1,
-Ada Solano1ˈ Ganggang Bai2, Suren A. Tatulian1*, Bo Chen1*, and Buyong Ma2*
+# Structure and Dynamics of Lipid-Stabilized Amyloid Beta Aβ<sub>1-42</sub> Oligomers, Accepted by Aggregate, DOI: 10.1002/agt2.70266
+by Tyrone Thames<sup>1#</sup> , Huixia Lu<sup>2#</sup>, MD Imran Khan<sup>1</sup>, Nabin Kandel<sup>1</sup>, Ivan Hung<sup>1</sup>, Zhehong Gan<sup>1</sup>,
+Ada Solano<sup>1</sup>, Ganggang Bai<sup>2</sup>, Suren A. Tatulian<sup>1*</sup>, Bo Chen<sup>1*</sup>, and Buyong Ma<sup>2*</sup>
 
 #### Simulating packages used in this work for consucting MD simulations:
 
