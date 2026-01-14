@@ -5,6 +5,8 @@ In this repository, we provide essential files for a published paper:
 by Huixia Lu<sup>1#</sup>, Tyrone Thames<sup>2#</sup> , , MD Imran Khan<sup>2</sup>, Nabin Kandel<sup>2</sup>, Ivan Hung<sup>2</sup>, Zhehong Gan<sup>2</sup>,
 Ada Solano<sup>2</sup>, Ganggang Bai<sup>1</sup>, Suren A. Tatulian<sup>2*</sup>, Bo Chen<sup>2*</sup>, and Buyong Ma<sup>1*</sup>
 
+Huixia Lu and Tyrone Thames contributed equally to this study.
+
 #### Simulating packages used in this work for conducting MD simulations:
 
 ##### AMBER20 utilizing the CHARMM36 force field 
