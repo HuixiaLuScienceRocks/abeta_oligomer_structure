@@ -19,7 +19,7 @@ The objective of our work is to achieve a deeper understanding of the molecular 
 
 ## 8mer-4popc: 
 The last configuration of Aβ octamer oligomer with 4 POPC lipids wrapped inside of it cavity while solvated in 0.15 M NaCl solution when t=5000 ns.
-![8mer-oneHSP-4popc.png](https://github.com/HuixiaLuScienceRocks/abeta_oligomer_structure/blob/main/8mer-oneHSP-4popc.png)
+![8mer-oneHSP-4popc.png](https://github.com/HuixiaLuScienceRocks/abeta_oligomer_structure/blob/main/8mer-4popc.png)
 
 ## 2x8mer dimer:
 The last configuration of two Aβ octamer molecules form stable dimer 2x8mer in 0.15 M NaCl solution when t=3000 ns.
